@@ -8,7 +8,7 @@
 #'
 #' @export
 eq_download_data <- function(){
-    eq_data <- read_tsv("https://www.ngdc.noaa.gov/nndc/struts/results?type_0=Exact&query_0=$ID&t=101650&s=13&d=189&dfn=signif.txt")
+    eq_data <- readr::read_tsv("https://www.ngdc.noaa.gov/nndc/struts/results?type_0=Exact&query_0=$ID&t=101650&s=13&d=189&dfn=signif.txt")
     return(eq_data)
 }
 
@@ -16,9 +16,9 @@ eq_download_data <- function(){
 #'
 #' @description This function helps properly format BC dates in the dataset.
 #'
-#' @param y year
-#' @param m month
-#' @param d day
+#' @param y Year
+#' @param m Month
+#' @param d Day
 #'
 #' @importFrom lubridate ymd years
 #'
@@ -52,15 +52,18 @@ eq_convert_date <- function(y, m, d){
 #' @importFrom dplyr mutate rowwise
 #' @importFrom tidyr replace_na
 #' @importFrom magrittr "%>%"
+#' @importFrom rlang .data
 #'
 #' @examples \dontrun{eq_tidy_data <- eq_clean_data(eq_download_data())}
 #'
 #' @return This function returns the cleaned dataset as in the description.
+#'
+#' @export
 eq_clean_data <- function(df){
     tidy_df <- df %>%
         tidyr::replace_na(list(MONTH = 1, DAY = 1)) %>%
         dplyr::rowwise() %>%
-        dplyr::mutate(DATE = eq_convert_date(YEAR, MONTH, DAY))
+        dplyr::mutate(DATE = eq_convert_date(.data$YEAR, .data$MONTH, .data$DAY))
     return(tidy_df)
 }
 
@@ -74,14 +77,17 @@ eq_clean_data <- function(df){
 #' @importFrom dplyr mutate rowwise
 #' @importFrom stringr str_to_title
 #' @importFrom magrittr "%>%"
+#' @importFrom rlang .data
 #'
 #' @examples \dontrun{eq_tidy_data <- eq_location_clean(eq_download_data())}
 #'
 #' @return This function returns the cleaned dataset as in the description.
+#'
+#' @export
 eq_location_clean <- function(df){
     tidy_df <- df %>%
         dplyr::rowwise() %>%
-        dplyr::mutate(COUNTRY = stringr::str_to_title(paste0(strsplit(LOCATION_NAME, ":")[[1]][1], ":"))) %>%
-        dplyr::mutate(LOCATION = stringr::str_to_title(strsplit(LOCATION_NAME, ":")[[1]][2]))
+        dplyr::mutate(COUNTRY = stringr::str_to_title(paste0(strsplit(.data$LOCATION_NAME, ":")[[1]][1], ":"))) %>%
+        dplyr::mutate(LOCATION = stringr::str_to_title(strsplit(.data$LOCATION_NAME, ":")[[1]][2]))
     return(tidy_df)
 }

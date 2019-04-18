@@ -1,11 +1,18 @@
 Package: NOAAsignif
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Visualize significant earthquake dataset from NOAA website
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Qinan Hu 
+Maintainer: Qinan Hu <qh78@cornell.edu>
+Description: Capstone Project for Coursera's Mastering Software Development with R Specialization.
+    This package contains functions that obtain and clean datasets of significant earthquakes from NOAA website.
+    It also provides functions to visulize the data in a labeled timeline or interactive map.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: dplyr, ggplot2, leaflet, lubridate, magrittr, readr, stringr, tidyr, rlang
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
