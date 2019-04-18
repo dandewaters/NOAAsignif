@@ -13,6 +13,5 @@ LazyData: true
 Imports: dplyr, ggplot2, leaflet, lubridate, magrittr, readr, stringr, tidyr, rlang
 RoxygenNote: 6.1.1
 Suggests: 
-    knitr,
-    rmarkdown
+    knitr, rmarkdown, testthat
 VignetteBuilder: knitr
